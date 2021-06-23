@@ -17,9 +17,11 @@ run:
 .PHONY: test
 test:
 	@echo "Say Something for the next 5 seconds"
-	@arecord --device=hw:1,0 --format=S16_LE --rate=44100 --duration=5 -c1 -V mono test.wav
+	#@arecord --device=hw:1,0 --format=S16_LE --rate=44100 --duration=5 -c1 -V mono test.wav
+	@arecord -D plughw:1,0 --duration=5 test.wav
 	@echo "You should hear your voice back"
-	@aplay -D plughw:1,0 test.wav
+	#@aplay -D plughw:1,0 test.wav
+	@aplay test.wav
 	@rm -rf test.wav
 	@echo "You should hear your voice back"
 
