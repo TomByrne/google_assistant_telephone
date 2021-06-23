@@ -13,6 +13,7 @@ python3 -m virtualenv -p python3 env
 . env/bin/activate
 
 pip install --upgrade pip
-pip install --upgrade grpcio
+#pip install --upgrade grpcio
+pip install grpcio -Iv grpcio==1.11.0
 
 pip install -r src/requirements.txt
