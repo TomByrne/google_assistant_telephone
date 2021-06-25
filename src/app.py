@@ -2,6 +2,7 @@
 import RPi.GPIO as GPIO
 import time
 import logging
+import os
 from google_assistant import GoogleAssistant
 
 
@@ -12,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 def phone_picked_up():
     """Called when the phone is picked up"""
     logging.info('Receiver picked up')
+    os.system('aplay /home/pi/google_assistant_telephone/internal-ring.wav')
     assistant.assist()
-
 
 def phone_hung_up():
     """Called when the phone is hung up"""
