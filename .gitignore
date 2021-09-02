@@ -1,5 +1,6 @@
-*.json
+/*.json
 *.pyc
 **/.DS_Store
 env
 environment.sh
+.vscode/*.log
