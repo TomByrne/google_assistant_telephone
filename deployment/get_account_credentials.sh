@@ -9,3 +9,5 @@ google-oauthlib-tool \
     --scope https://www.googleapis.com/auth/gcm \
     --save \
     --headless
+
+cp /home/pi/.config/google-oauthlib-tool/credentials.json ./credentials.json
