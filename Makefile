@@ -1,37 +1,32 @@
-PI_IP_ADDRESS=10.0.0.10
-PI_USERNAME=pi
+export USB_SOUND_CARD=2
 
-
-.PHONY: copy
-copy:
-	@rsync -a $(shell pwd) --exclude env $(PI_USERNAME)@$(PI_IP_ADDRESS):/home/$(PI_USERNAME) 
-
+# Run this to set up dependencies
 .PHONY: install
 install:
 	@cd deployment && bash install.sh
 
+# Run the app itself
 .PHONY: run
 run:
 	@. env/bin/activate && cd src && python app.py
 
+# Test the speaker/mic connection
 .PHONY: test
 test:
 	@echo "Say Something for the next 5 seconds"
-	#@arecord --device=hw:1,0 --format=S16_LE --rate=44100 --duration=5 -c1 -V mono test.wav
-	@arecord -D plughw:1,0 --duration=5 test.wav
+	#@arecord --device=hw:$(USB_SOUND_CARD),0 --format=S16_LE --rate=44100 --duration=5 -c1 -V mono test.wav
+	@arecord -D plughw:$(USB_SOUND_CARD),0 --duration=5 test.wav
 	@echo "You should hear your voice back"
-	#@aplay -D plughw:1,0 test.wav
+	#@aplay -D plughw:$(USB_SOUND_CARD),0 test.wav
 	@aplay test.wav
 	@rm -rf test.wav
 	@echo "You should hear your voice back"
 
-.PHONY: shell
-shell:
-	@ssh $(PI_USERNAME)@$(PI_IP_ADDRESS)
-
+# Auth with google API
 .PHONY: authenticate
 authenticate:
 	@. env/bin/activate && cd deployment && bash get_account_credentials.sh
+
 
 .PHONY: configure-audio
 configure-audio:
