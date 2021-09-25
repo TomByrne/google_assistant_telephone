@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 import time
 import logging
 import os
+from os.path import dirname
 from google_assistant import GoogleAssistant
 
 
@@ -13,8 +14,16 @@ logging.basicConfig(level=logging.INFO)
 def phone_picked_up():
     """Called when the phone is picked up"""
     logging.info('Receiver picked up')
-    os.system('aplay /home/pi/google_assistant_telephone/internal-ring.wav')
-    assistant.assist()
+    root = dirname(os.getcwd())
+    os.system('aplay {}/internal-ring.wav'.format(root))
+    continue_assist = True
+    while continue_assist:
+        continue_assist = assistant.assist()
+        if continue_assist:
+            logging.info('Assistant responded, continuing conversation')
+        else:
+            logging.info('Assistant responded, conversation ended')
+
 
 def phone_hung_up():
     """Called when the phone is hung up"""
